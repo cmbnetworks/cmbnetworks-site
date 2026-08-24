@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMB Networks | Fractional CISO & Cybersecurity Advisory Services</title>
+<meta name="description" content="CMB Networks provides fractional CISO, cybersecurity advisory, HIPAA/HITRUST, PCI-DSS, SOC 2, and AI/LLM governance services for growing organizations." />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+  body { font-family: 'Segoe UI', Arial, sans-serif; padding: 0; margin: 0; color: #333333; }
+
+  /* NAV */
+  .mainMenuShell { background: #333333; }
+  .navbar { padding: 0 20px; }
+  .navbar-brand span { color: #77C21B; font-size: 1.4em; font-weight: bold; letter-spacing: 2px; }
+  .navbar-dark .navbar-nav .nav-link { color: #cccccc; font-size: .85em; text-transform: uppercase; padding: 18px 15px; }
+  .navbar-dark .navbar-nav .nav-link:hover { color: #77C21B; }
+
+  /* HERO */
+  .heroShell {
+    background: #222222 url('internetConsultantBGW.jpg') center center / cover no-repeat;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    padding: 80px 0 60px;
+    position: relative;
+  }
+  .heroOverlay { background: rgba(0,0,0,0.65); position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+  .heroContent { position: relative; z-index: 2; }
+  .heroEyebrow { color: #77C21B; text-transform: uppercase; letter-spacing: 3px; font-size: .8em; margin-bottom: 15px; }
+  .heroTitle { color: #ffffff; font-size: 2.6em; font-weight: 700; line-height: 1.2; margin-bottom: 20px; }
+  .heroTitle span { color: #77C21B; }
+  .heroSub { color: #cccccc; font-size: 1em; max-width: 600px; margin-bottom: 30px; line-height: 1.7; }
+  .btnGreen { background: #77C21B; color: #ffffff; border: none; padding: 12px 32px; text-transform: uppercase; font-size: .85em; letter-spacing: 1px; text-decoration: none; display: inline-block; transition: background .3s; }
+  .btnGreen:hover { background: #5fa014; color: #fff; text-decoration: none; }
+  .btnOutline { background: transparent; color: #ffffff; border: 2px solid #ffffff; padding: 12px 32px; text-transform: uppercase; font-size: .85em; letter-spacing: 1px; text-decoration: none; display: inline-block; transition: all .3s; margin-left: 15px; }
+  .btnOutline:hover { background: #ffffff; color: #333333; text-decoration: none; }
+
+  /* STATS BAR */
+  .statsBar { background: #77C21B; padding: 24px 0; }
+  .statItem { text-align: center; color: #ffffff; }
+  .statNum { font-size: 2em; font-weight: 700; line-height: 1; }
+  .statLabel { font-size: .8em; text-transform: uppercase; letter-spacing: 1px; opacity: .85; }
+
+  /* SECTIONS */
+  .sectionWhite { background: #ffffff; padding: 80px 0; }
+  .sectionGray { background: #f7f7f7; padding: 80px 0; }
+  .sectionSubtitle { color: #77C21B; font-style: italic; font-weight: bold; text-transform: uppercase; font-size: .85em; letter-spacing: 2px; margin-bottom: 8px; }
+  .sectionTitle { color: #333333; font-weight: 700; font-size: 2em; text-transform: uppercase; margin-bottom: 30px; }
+  .blockQuote { border-left: 3px solid #77C21B; padding: 5px 20px; margin: 20px 0; }
+
+  /* SERVICE CARDS */
+  .serviceCard { background: #ffffff; border: 1px solid #e5e5e5; padding: 30px 25px; margin-bottom: 24px; transition: box-shadow .3s; height: 100%; display: flex; flex-direction: column; }
+  .serviceCard:hover { box-shadow: 0 5px 25px rgba(0,0,0,.1); }
+  .serviceIcon { font-size: 2em; color: #77C21B; margin-bottom: 15px; }
+  .serviceCard h4 { font-size: 1.05em; font-weight: 700; color: #333333; margin-bottom: 10px; text-transform: uppercase; }
+  .serviceCard p { font-size: .88em; color: #666666; line-height: 1.7; margin-bottom: 15px; flex-grow: 1; }
+  .serviceRate { font-size: .8em; color: #77C21B; font-weight: bold; border-top: 1px solid #eeeeee; padding-top: 12px; }
+
+  /* CREDENTIALS */
+  .credItem { padding: 12px 0; border-bottom: 1px solid #eeeeee; }
+  .credItem:last-child { border-bottom: none; }
+  .credItem i { color: #77C21B; margin-right: 10px; }
+  .credTitle { font-weight: 600; font-size: .95em; }
+  .credSub { font-size: .82em; color: #888888; margin-left: 28px; }
+
+  /* HOW IT WORKS */
+  .stepCard { background: #ffffff; border-top: 3px solid #77C21B; padding: 30px 20px; margin-bottom: 24px; }
+  .stepNum { font-size: 2.5em; font-weight: 700; color: #eeeeee; line-height: 1; margin-bottom: 10px; }
+  .stepCard h4 { font-size: 1em; font-weight: 700; text-transform: uppercase; color: #333333; margin-bottom: 10px; }
+  .stepCard p { font-size: .87em; color: #666666; line-height: 1.7; }
+
+  /* CONTACT */
+  .contactShell { background: #333333; padding: 70px 0; text-align: center; }
+  .contactShell h2 { color: #ffffff; font-weight: 700; text-transform: uppercase; margin-bottom: 15px; }
+  .contactShell p { color: #aaaaaa; margin-bottom: 35px; }
+  .contactLink { color: #77C21B; font-size: 1.1em; font-weight: bold; text-decoration: none; margin: 0 20px; display: inline-block; }
+  .contactLink:hover { color: #5fa014; text-decoration: none; }
+  .contactLink i { margin-right: 8px; }
+
+  footer { background: #222222; padding: 20px 0; text-align: center; }
+  footer p { color: #555555; font-size: .8em; margin: 0; }
+  footer span { color: #77C21B; }
+
+  /* CHATBOT */
+  #chatToggle {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 58px;
+    height: 58px;
+    background: #77C21B;
+    border-radius: 50%;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    z-index: 9999;
+    transition: background .2s, transform .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #chatToggle:hover { background: #5fa014; transform: scale(1.08); }
+
+  #chatWindow {
+    position: fixed;
+    bottom: 98px;
+    right: 28px;
+    width: 360px;
+    max-height: 520px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+    z-index: 9998;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+  }
+  #chatWindow.open { display: flex; }
+
+  .chatHeader {
+    background: #333333;
+    color: #ffffff;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .chatHeaderDot { width: 10px; height: 10px; background: #77C21B; border-radius: 50%; flex-shrink: 0; }
+  .chatHeaderText { font-size: .9em; font-weight: 600; }
+  .chatHeaderSub { font-size: .75em; color: #aaaaaa; }
+  .chatHeaderClose { margin-left: auto; background: none; border: none; color: #aaaaaa; font-size: 1.1em; cursor: pointer; padding: 0; }
+  .chatHeaderClose:hover { color: #fff; }
+
+  #chatMessages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #fafafa;
+  }
+
+  .chatMsg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: .87em;
+    line-height: 1.5;
+    word-wrap: break-word;
+  }
+  .chatMsg.bot { background: #ffffff; border: 1px solid #e5e5e5; color: #333333; align-self: flex-start; border-radius: 4px 12px 12px 12px; }
+  .chatMsg.user { background: #77C21B; color: #ffffff; align-self: flex-end; border-radius: 12px 4px 12px 12px; }
+  .chatMsg.typing { background: #ffffff; border: 1px solid #e5e5e5; color: #999; font-style: italic; align-self: flex-start; }
+
+  .chatInputRow {
+    display: flex;
+    padding: 12px;
+    gap: 8px;
+    background: #ffffff;
+    border-top: 1px solid #eeeeee;
+  }
+  #chatInput {
+    flex: 1;
+    border: 1px solid #dddddd;
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: .87em;
+    outline: none;
+    font-family: inherit;
+    resize: none;
+    max-height: 80px;
+  }
+  #chatInput:focus { border-color: #77C21B; }
+  #chatSend {
+    background: #77C21B;
+    border: none;
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .9em;
+    flex-shrink: 0;
+    align-self: flex-end;
+    transition: background .2s;
+  }
+  #chatSend:hover { background: #5fa014; }
+  #chatSend:disabled { background: #cccccc; cursor: not-allowed; }
+
+  .chatPowered { text-align: center; font-size: .7em; color: #cccccc; padding: 4px 0 8px; background: #ffffff; }
+
+  @media (max-width: 480px) {
+    #chatWindow { width: calc(100vw - 40px); right: 20px; bottom: 88px; }
+    #chatToggle { right: 20px; bottom: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="mainMenuShell">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#"><span>CMB Networks</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="#credentials">Credentials</a></li>
+        <li class="nav-item"><a class="nav-link" href="#how">How It Works</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<!-- HERO -->
+<div class="heroShell">
+  <div class="heroOverlay"></div>
+  <div class="container">
+    <div class="heroContent">
+      <div class="heroEyebrow">CMB Networks LLC &mdash; Key West, FL &mdash; Remote</div>
+      <div class="heroTitle">Fractional CISO &amp; <span>Cybersecurity Advisory</span></div>
+      <div class="heroSub">Senior security leadership for organizations that need executive-level judgment without a full-time hire. HIPAA/HITRUST, PCI-DSS, SOC 2, AI/LLM Governance, and more.</div>
+      <a href="#contact" class="btnGreen">Start a Conversation</a>
+      <a href="#services" class="btnOutline">View Services</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="statsBar">
+  <div class="container">
+    <div class="row">
+      <div class="col-6 col-md-3 statItem"><div class="statNum">20+</div><div class="statLabel">Years Experience</div></div>
+      <div class="col-6 col-md-3 statItem"><div class="statNum">25+</div><div class="statLabel">HITRUST Assessments</div></div>
+      <div class="col-6 col-md-3 statItem"><div class="statNum">338</div><div class="statLabel">Entities Managed</div></div>
+      <div class="col-6 col-md-3 statItem"><div class="statNum">$15M</div><div class="statLabel">Contract Savings Driven</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="sectionWhite" id="about">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <div class="sectionSubtitle">About Us</div>
+        <div class="sectionTitle">Who We Are</div>
+        <p class="blockQuote">CMB Networks is the independent practice of Corey Bobb, a cybersecurity executive with 20 plus years leading security programs across Fortune 15 enterprise, critical infrastructure, financial services, and healthcare organizations. Former CISO. Former CTO. HIPAA/HITRUST lead assessor. PCI-DSS QSA. ISO 42001 AIMS Lead Auditor.</p>
+        <p>The work here is hands-on. Not high-level advice delivered from a distance, but actual program building, framework implementation, risk assessment, and compliance delivery. Engagements are structured to fit your timeline and budget with clear deliverables and no fluff.</p>
+        <p>Private sector only. Remote-first. Available for select engagements in healthcare, financial services, technology, and legal services.</p>
+        <a href="#contact" class="btnGreen mt-3">Partner With Us Today</a>
+      </div>
+      <div class="col-md-5 mt-4 mt-md-0">
+        <div class="credItem"><i class="fas fa-shield-alt"></i><span class="credTitle">CISO Experience</span><div class="credSub">$12.3M budget, 50+ person team at WMATA</div></div>
+        <div class="credItem"><i class="fas fa-heartbeat"></i><span class="credTitle">Healthcare GRC</span><div class="credSub">Fortune 15 enterprise, HIPAA/HITRUST expert</div></div>
+        <div class="credItem"><i class="fas fa-robot"></i><span class="credTitle">AI Governance</span><div class="credSub">ISO 42001 AIMS Lead Auditor, built at enterprise scale</div></div>
+        <div class="credItem"><i class="fas fa-credit-card"></i><span class="credTitle">PCI-DSS QSA</span><div class="credSub">Former qualified security assessor</div></div>
+        <div class="credItem"><i class="fas fa-code"></i><span class="credTitle">Python Automation</span><div class="credSub">Production tools, not just policy writing</div></div>
+        <div class="credItem"><i class="fas fa-landmark"></i><span class="credTitle">Congressional Testimony</span><div class="credSub">Testified before U.S. legislative subcommittees</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div class="sectionGray" id="services">
+  <div class="container">
+    <div class="sectionSubtitle">What We Do</div>
+    <div class="sectionTitle">Our Services</div>
+    <div class="row">
+      <div class="col-md-4 d-flex"><div class="serviceCard">
+        <div class="serviceIcon"><i class="fas fa-user-tie"></i></div>
+        <h4>Fractional CISO Retainer</h4>
+        <p>Part-time security leadership including strategy, executive reporting, policy ownership, vendor risk, and board-level communication.</p>
+        <div class="serviceRate">Starting at $5,000/month &mdash; 10 to 20 hrs/month</div>
+      </div></div>
+      <div class="col-md-4 d-flex"><div class="serviceCard">
+        <div class="serviceIcon"><i class="fas fa-heartbeat"></i></div>
+        <h4>HIPAA / HITRUST Readiness</h4>
+        <p>Full readiness assessment and remediation roadmap. Lead assessor credentials across 25 plus healthcare organizations and all 19 HITRUST control domains.</p>
+        <div class="serviceRate">Fixed-scope &mdash; from $15,000</div>
+      </div></div>
+      <div class="col-md-4 d-flex"><div class="serviceCard">
+        <div class="serviceIcon"><i class="fas fa-certificate"></i></div>
+        <h4>SOC 2 Readiness</h4>
+        <p>Gap assessment, policy development, evidence framework, and audit preparation for SOC 2 Type I or Type II with Fortune 15 enterprise compliance experience.</p>
+        <div class="serviceRate">Fixed-scope &mdash; from $12,000</div>
+      </div></div>
+      <div class="col-md-4 d-flex"><div class="serviceCard">
+        <div class="serviceIcon"><i class="fas fa-robot"></i></div>
+        <h4>AI / LLM Governance</h4>
+        <p>ISO 42001 AIMS and NIST AI RMF aligned program build. Toolchain risk assessment, data intake controls, prompt injection awareness, and usage policy design.</p>
+        <div class="serviceRate">Fixed-scope &mdash; from $10,000</div>
+      </div></div>
+      <div class="col-md-4 d-flex"><div class="serviceCard">
+        <div class="serviceIcon"><i class="fas fa-credit-card"></i></div>
+        <h4>PCI-DSS Compliance</h4>
+        <p>Scoping, gap assessment, remediation roadmap, and audit preparation. Delivered by a former PCI-DSS QSA who knows what auditors actually look for.</p>
+        <div class="serviceRate">Fixed-scope &mdash; from $8,000</div>
+      </div></div>
+      <div class="col-md-4 d-flex"><div class="serviceCard">
+        <div class="serviceIcon"><i class="fas fa-search"></i></div>
+        <h4>Security Advisory</h4>
+        <p>M&amp;A due diligence, incident response planning, third-party risk program build, architecture review, or board-level risk reporting.</p>
+        <div class="serviceRate">$200 to $350/hr or fixed-scope</div>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CREDENTIALS -->
+<div class="sectionWhite" id="credentials">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="sectionSubtitle">Credentials</div>
+        <div class="sectionTitle">Certifications</div>
+        <div class="credItem"><i class="fas fa-check-circle"></i><span class="credTitle">CISSP &mdash; (ISC)2</span><div class="credSub">Active</div></div>
+        <div class="credItem"><i class="fas fa-check-circle"></i><span class="credTitle">C-CISO &mdash; EC-Council</span><div class="credSub">Active</div></div>
+        <div class="credItem"><i class="fas fa-check-circle"></i><span class="credTitle">HIPAA/HITRUST CCSFP &mdash; HITRUST Alliance</span><div class="credSub">Active &mdash; Lead Assessor Experience</div></div>
+        <div class="credItem"><i class="fas fa-check-circle"></i><span class="credTitle">ISO 42001 AIMS Lead Auditor</span><div class="credSub">AI Management Systems &mdash; Active</div></div>
+        <div class="credItem"><i class="fas fa-check-circle"></i><span class="credTitle">CCNA &mdash; Cisco</span><div class="credSub">Routing and Switching &mdash; Active</div></div>
+        <div class="credItem"><i class="fas fa-check-circle"></i><span class="credTitle">MBA &mdash; University of Maryland</span><div class="credSub">Robert H. Smith School of Business</div></div>
+        <div class="credItem"><i class="fas fa-check-circle"></i><span class="credTitle">Former PCI-DSS QSA</span></div>
+        <div class="credItem"><i class="fas fa-check-circle"></i><span class="credTitle">Former SOC Auditor &mdash; SOC 1 and SOC 2</span></div>
+      </div>
+      <div class="col-md-6 mt-4 mt-md-0">
+        <div class="sectionSubtitle">Background</div>
+        <div class="sectionTitle">Experience</div>
+        <p>Twenty years of hands-on and executive security work. Not someone who read about it. Someone who owned a $12.3M security budget at WMATA protecting 750,000 daily riders, testified before Congress on enterprise security risk, ran HIPAA/HITRUST assessments for 25 plus healthcare organizations as a credentialed lead assessor, and built AI governance programs at a Fortune 15 enterprise before most organizations knew they needed one.</p>
+        <p>The technical depth is real. Python automation tools built and running in production. Palo Alto, Cisco, Juniper, Splunk since 2006, CrowdStrike, Azure, AWS. Strategy when it needs to be strategy. In the weeds when it needs to be in the weeds.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="sectionGray" id="how">
+  <div class="container">
+    <div class="sectionSubtitle">Process</div>
+    <div class="sectionTitle">How It Works</div>
+    <div class="row">
+      <div class="col-md-3 col-sm-6"><div class="stepCard"><div class="stepNum">01</div><h4>Initial Conversation</h4><p>Talk through what you are trying to solve. No charge. No obligation. Usually 30 minutes.</p></div></div>
+      <div class="col-md-3 col-sm-6"><div class="stepCard"><div class="stepNum">02</div><h4>Scoped Proposal</h4><p>A clear proposal with defined scope, deliverables, timeline, and pricing. No ambiguity.</p></div></div>
+      <div class="col-md-3 col-sm-6"><div class="stepCard"><div class="stepNum">03</div><h4>Engagement Begins</h4><p>Work starts on a defined schedule with regular cadence for retainer clients.</p></div></div>
+      <div class="col-md-3 col-sm-6"><div class="stepCard"><div class="stepNum">04</div><h4>Delivered and Documented</h4><p>Every engagement ends with documentation you own that survives past the engagement.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contactShell" id="contact">
+  <div class="container">
+    <h2>Ready to Talk?</h2>
+    <p>Reach out directly or use the chat widget. No intake forms, no sales process.</p>
+    <div>
+      <a href="mailto:corey@cmbnetworks.net" class="contactLink"><i class="fas fa-envelope"></i>corey@cmbnetworks.net</a>
+      <a href="tel:4075519139" class="contactLink"><i class="fas fa-phone"></i>407.551.9139</a>
+      <a href="https://linkedin.com/in/corey-m-bobb" class="contactLink" target="_blank"><i class="fab fa-linkedin"></i>LinkedIn</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 <span>CMB Networks LLC</span> &mdash; Key West, FL &mdash; Private sector only &mdash; Remote-first</p>
+</footer>
+
+<!-- CHATBOT WIDGET -->
+<button id="chatToggle" title="Chat with us">
+  <i class="fas fa-comments" id="chatIcon"></i>
+</button>
+
+<div id="chatWindow">
+  <div class="chatHeader">
+    <div class="chatHeaderDot"></div>
+    <div>
+      <div class="chatHeaderText">CMB Networks</div>
+      <div class="chatHeaderSub">Ask about our services</div>
+    </div>
+    <button class="chatHeaderClose" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="chatMessages">
+    <div class="chatMsg bot">Hi there! I'm the CMB Networks assistant. I can answer questions about our cybersecurity advisory services, pricing, and credentials. How can I help you today?</div>
+  </div>
+  <div class="chatInputRow">
+    <textarea id="chatInput" placeholder="Ask about our services..." rows="1" onkeydown="handleKey(event)"></textarea>
+    <button id="chatSend" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+  <div class="chatPowered">Powered by AI &mdash; CMB Networks LLC</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/js/bootstrap.bundle.min.js"></script>
+<script>
+  let chatHistory = [];
+  let isOpen = false;
+
+  function toggleChat() {
+    isOpen = !isOpen;
+    const win = document.getElementById('chatWindow');
+    const icon = document.getElementById('chatIcon');
+    if (isOpen) {
+      win.classList.add('open');
+      icon.className = 'fas fa-times';
+      document.getElementById('chatInput').focus();
+    } else {
+      win.classList.remove('open');
+      icon.className = 'fas fa-comments';
+    }
+  }
+
+  document.getElementById('chatToggle').addEventListener('click', toggleChat);
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  function appendMessage(text, type) {
+    const msgs = document.getElementById('chatMessages');
+    const div = document.createElement('div');
+    div.className = 'chatMsg ' + type;
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('chatInput');
+    const btn = document.getElementById('chatSend');
+    const message = input.value.trim();
+    if (!message) return;
+
+    input.value = '';
+    input.style.height = 'auto';
+    btn.disabled = true;
+
+    appendMessage(message, 'user');
+    chatHistory.push({ role: 'user', content: message });
+
+    const typing = appendMessage('Typing...', 'typing');
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message, history: chatHistory.slice(-8) })
+      });
+
+      const data = await response.json();
+      typing.remove();
+
+      if (data.reply) {
+        appendMessage(data.reply, 'bot');
+        chatHistory.push({ role: 'assistant', content: data.reply });
+      } else {
+        appendMessage('Something went wrong. Please email corey@cmbnetworks.net directly.', 'bot');
+      }
+    } catch (err) {
+      typing.remove();
+      appendMessage('Unable to connect right now. Please email corey@cmbnetworks.net or call 407.551.9139.', 'bot');
+    }
+
+    btn.disabled = false;
+    input.focus();
+  }
+
+  // Auto-resize textarea
+  document.getElementById('chatInput').addEventListener('input', function() {
+    this.style.height = 'auto';
+    this.style.height = Math.min(this.scrollHeight, 80) + 'px';
+  });
+</script>
+</body>
+</html>

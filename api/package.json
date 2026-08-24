@@ -1,0 +1,6 @@
+{
+  "name": "cmbnetworks-api",
+  "version": "1.0.0",
+  "description": "CMB Networks chatbot API",
+  "main": "chat.js"
+}
