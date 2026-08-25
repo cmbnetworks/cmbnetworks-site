@@ -350,7 +350,7 @@
     chatHistory.push({ role: "user", content: message });
     var typing = appendMessage("Typing...", "typing");
     try {
-      var response = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: message, history: chatHistory.slice(-8) }) });
+      var response = await fetch("https://cmbnetworks-chat.corey-c9f.workers.dev", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: message, history: chatHistory.slice(-8) }) });
       var data = await response.json();
       typing.remove();
       if (data.reply) { appendMessage(data.reply, "bot"); chatHistory.push({ role: "assistant", content: data.reply }); }
