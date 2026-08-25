@@ -1,58 +1,59 @@
-// Azure Static Web Apps API function - /api/chat
-// This runs serverless on Azure, keeping your API key secure
-
 const https = require('https');
 
 module.exports = async function (context, req) {
-    const { message, history } = req.body;
+    context.log('Chat function triggered');
     
-    if (!message) {
+    if (req.method !== 'POST') {
+        context.res = { status: 405, body: 'Method not allowed' };
+        return;
+    }
+
+    const body = req.body;
+    if (!body || !body.message) {
         context.res = { status: 400, body: { error: 'Message required' } };
         return;
     }
 
+    const { message, history } = body;
     const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
     
-    const systemPrompt = `You are a professional AI assistant for CMB Networks LLC, a cybersecurity advisory firm led by Corey Bobb. Your job is to answer questions about CMB Networks services, help qualify potential clients, and collect contact information from interested visitors.
+    if (!ANTHROPIC_API_KEY) {
+        context.log.error('ANTHROPIC_API_KEY not set');
+        context.res = { status: 500, body: { error: 'API key not configured' } };
+        return;
+    }
 
-CMB Networks Services and Pricing:
-- Fractional CISO Retainer: Starting at $5,000/month (10-20 hrs/month). Ongoing security leadership, strategy, executive reporting, policy, vendor risk, incident response oversight.
-- HIPAA/HITRUST Readiness: From $15,000 fixed-scope. Gap assessment, remediation roadmap, all 19 HITRUST control domains. Lead assessor credentials.
-- SOC 2 Readiness: From $12,000 fixed-scope. Gap assessment, policy development, evidence framework, audit preparation.
-- AI/LLM Governance: From $10,000 fixed-scope. ISO 42001 AIMS aligned, NIST AI RMF, prompt injection controls, usage policy design.
-- PCI-DSS Compliance: From $8,000 fixed-scope. Scoping, gap assessment, remediation, audit prep. Former QSA credentials.
-- Security Program Advisory: $200-$350/hr or fixed-scope. M&A due diligence, incident response planning, third-party risk, architecture review.
+    const systemPrompt = `You are a professional assistant for CMBNetworks LLC, a cybersecurity advisory firm led by Corey Bobb. Answer questions about services, pricing, and credentials. Be concise and professional.
+
+Services and pricing:
+- Fractional CISO Retainer: from $5,000/month (10-20 hrs/month)
+- HIPAA/HITRUST Readiness: from $15,000 fixed-scope
+- SOC 2 Readiness: from $12,000 fixed-scope
+- AI/LLM Governance: from $10,000 fixed-scope
+- PCI-DSS Compliance: from $8,000 fixed-scope
+- NIST 800-53/800-171: from $10,000 fixed-scope
+- Security Advisory: $200-$350/hr
 
 About Corey Bobb:
 - 20+ years cybersecurity experience
-- Former CISO at WMATA ($12.3M budget, 50+ person team)
-- Currently Senior Manager at Cigna Fortune 15 healthcare enterprise
-- HITRUST CCSFP Lead Assessor - 25+ healthcare organizations assessed
-- ISO 42001 AIMS Lead Auditor
+- Former CISO at WMATA, second largest transportation org in America
+- CISSP, C-CISO, HITRUST CCSFP, ISO 42001 AIMS Lead Auditor, CCNA
 - Former PCI-DSS QSA and SOC Auditor
-- Credentials: CISSP, C-CISO, HITRUST CCSFP, ISO 42001, CCNA, MBA
+- Lead HITRUST assessor across 25+ healthcare organizations
 
-Key facts:
-- Remote-first, private sector only
-- Based in Key West, FL
-- Contact: corey@cmbnetworks.net or 407.551.9139
+Contact: corey@cmbnetworks.net or 407.551.9139
+Private sector only. Remote-first.
 
-Your behavior:
-- Be professional, concise, and helpful
-- Answer questions about services, pricing, credentials, and background
-- When someone seems interested or asks about next steps, ask for their name, company, and email so Corey can follow up
-- Do not make up information - only use what is provided above
-- Keep responses under 150 words unless a detailed explanation is truly needed
-- If asked something outside your knowledge, suggest they email corey@cmbnetworks.net directly`;
+When someone seems interested, ask for their name, company, and email so Corey can follow up. Keep responses under 120 words.`;
 
     const messages = [
-        ...(history || []),
+        ...(history || []).slice(-6),
         { role: 'user', content: message }
     ];
 
     const requestBody = JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 400,
+        max_tokens: 300,
         system: systemPrompt,
         messages: messages
     });
@@ -71,35 +72,40 @@ Your behavior:
 
     try {
         const response = await new Promise((resolve, reject) => {
-            const req = https.request(options, (res) => {
+            const request = https.request(options, (res) => {
                 let data = '';
                 res.on('data', chunk => data += chunk);
-                res.on('end', () => resolve(JSON.parse(data)));
+                res.on('end', () => {
+                    try {
+                        resolve(JSON.parse(data));
+                    } catch(e) {
+                        reject(new Error('Failed to parse response'));
+                    }
+                });
             });
-            req.on('error', reject);
-            req.write(requestBody);
-            req.end();
+            request.on('error', reject);
+            request.write(requestBody);
+            request.end();
         });
 
-        const reply = response.content[0].text;
-        
-        // Check if we should send a lead notification
-        const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
-        if (emailRegex.test(message) || emailRegex.test(reply)) {
-            // Log lead for Azure Function to pick up
-            context.log('LEAD_DETECTED:', { message, reply, timestamp: new Date().toISOString() });
+        if (response.error) {
+            context.log.error('Anthropic error:', response.error);
+            context.res = { status: 500, body: { error: 'AI service error' } };
+            return;
         }
 
+        const reply = response.content && response.content[0] ? response.content[0].text : 'I could not generate a response.';
+        
         context.res = {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
-            body: { reply, role: 'assistant' }
+            body: { reply }
         };
     } catch (error) {
-        context.log.error('API Error:', error);
+        context.log.error('Function error:', error.message);
         context.res = {
             status: 500,
-            body: { error: 'Service temporarily unavailable. Please email corey@cmbnetworks.net directly.' }
+            body: { error: 'Service temporarily unavailable' }
         };
     }
 };
