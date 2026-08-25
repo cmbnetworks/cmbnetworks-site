@@ -2,8 +2,5 @@
   "name": "cmbnetworks-api",
   "version": "1.0.0",
   "description": "CMBNetworks chatbot API",
-  "main": "chat/index.js",
-  "dependencies": {
-    "@azure/functions": "^4.0.0"
-  }
+  "main": "chat/index.js"
 }

@@ -1,21 +1,22 @@
-const { app } = require('@azure/functions');
 const https = require('https');
 
-app.http('chat', {
-    methods: ['POST'],
-    authLevel: 'anonymous',
-    handler: async (request, context) => {
-        context.log('Chat function triggered');
+module.exports = async function (context, req) {
+    context.log('Chat function triggered');
 
-        let body;
-        try {
-            body = await request.json();
-        } catch (e) {
-            return { status: 400, body: JSON.stringify({ error: 'Invalid JSON' }) };
+    try {
+        let body = req.body;
+        
+        if (typeof body === 'string') {
+            body = JSON.parse(body);
         }
 
         if (!body || !body.message) {
-            return { status: 400, body: JSON.stringify({ error: 'Message required' }) };
+            context.res = {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ error: 'Message required' })
+            };
+            return;
         }
 
         const { message, history } = body;
@@ -23,7 +24,12 @@ app.http('chat', {
 
         if (!ANTHROPIC_API_KEY) {
             context.log.error('ANTHROPIC_API_KEY not set');
-            return { status: 500, body: JSON.stringify({ error: 'API key not configured' }) };
+            context.res = {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ error: 'API key not configured' })
+            };
+            return;
         }
 
         const systemPrompt = `You are a professional assistant for CMBNetworks LLC, a cybersecurity advisory firm led by Corey Bobb. Answer questions about services, pricing, and credentials. Be concise and professional.
@@ -61,51 +67,58 @@ When someone seems interested, ask for their name, company, and email so Corey c
             messages: messages
         });
 
-        const options = {
-            hostname: 'api.anthropic.com',
-            path: '/v1/messages',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': ANTHROPIC_API_KEY,
-                'anthropic-version': '2023-06-01',
-                'Content-Length': Buffer.byteLength(requestBody)
-            }
+        const response = await new Promise((resolve, reject) => {
+            const options = {
+                hostname: 'api.anthropic.com',
+                path: '/v1/messages',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': ANTHROPIC_API_KEY,
+                    'anthropic-version': '2023-06-01',
+                    'Content-Length': Buffer.byteLength(requestBody)
+                }
+            };
+
+            const req = https.request(options, (res) => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => {
+                    try { resolve(JSON.parse(data)); }
+                    catch (e) { reject(new Error('Failed to parse Anthropic response: ' + data)); }
+                });
+            });
+            req.on('error', reject);
+            req.write(requestBody);
+            req.end();
+        });
+
+        context.log('Anthropic response:', JSON.stringify(response));
+
+        if (response.error) {
+            context.log.error('Anthropic API error:', response.error);
+            context.res = {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ error: 'AI service error: ' + response.error.message })
+            };
+            return;
+        }
+
+        const reply = response.content && response.content[0] ? response.content[0].text : 'Unable to generate response.';
+
+        context.res = {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ reply })
         };
 
-        try {
-            const response = await new Promise((resolve, reject) => {
-                const req = https.request(options, (res) => {
-                    let data = '';
-                    res.on('data', chunk => data += chunk);
-                    res.on('end', () => {
-                        try { resolve(JSON.parse(data)); }
-                        catch (e) { reject(new Error('Failed to parse response')); }
-                    });
-                });
-                req.on('error', reject);
-                req.write(requestBody);
-                req.end();
-            });
-
-            if (response.error) {
-                context.log.error('Anthropic error:', response.error);
-                return { status: 500, body: JSON.stringify({ error: 'AI service error' }) };
-            }
-
-            const reply = response.content && response.content[0] ? response.content[0].text : 'I could not generate a response.';
-
-            return {
-                status: 200,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ reply })
-            };
-        } catch (error) {
-            context.log.error('Function error:', error.message);
-            return {
-                status: 500,
-                body: JSON.stringify({ error: 'Service temporarily unavailable' })
-            };
-        }
+    } catch (error) {
+        context.log.error('Unhandled error:', error.message, error.stack);
+        context.res = {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ error: error.message })
+        };
     }
-});
+};
